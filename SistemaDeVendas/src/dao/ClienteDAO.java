@@ -45,11 +45,9 @@ public class ClienteDAO {
                 ResultSet.CONCUR_UPDATABLE
             );
             stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery(); // obtenho o retorno da consulta e armazeno no ResultSet
+            ResultSet rs = stmt.executeQuery(); 
             
             Cliente c = new Cliente();
-            // Primeiramente, vamos posicionar o retorno da consulta (ResultSet) na primeira posição da consulta
-            // Em alguns casos, a consulta terá mais de um resultado de retorno
             rs.first();
             
             c.setId(id);
@@ -65,35 +63,8 @@ public class ClienteDAO {
             return null;
         }
     }
-        public void editar(Cliente cliente){
-            try{
-                String sql = "UPDATE pessoa set nome=?, sexo=?, idioma=? WHERE id=?";
-                
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setString(1,cliente.getNome());
-                stmt.setString(2,cliente.getEndereco());
-                stmt.setString(3,cliente.getEmail());
-                stmt.setString(4,cliente.getTelefone());
-                stmt.setInt(5,cliente.getId());
-                stmt.execute();
-            }catch(SQLException ex){
-                System.out.println("Erro ao atualizar pessoa:" + ex.getMessage());
-            }
-        }
-      public void excluir (int id){
-        try {
-          String sql = "DELETE from cliente WHERE id=?";
-
-          PreparedStatement stmt = conn.prepareStatement(sql);
-          stmt.setInt(1, id);
-          stmt.execute();
-      }
-        catch(SQLException ex){
-          System.out.println("Erro ao excluir cliente: " + ex.getMessage());
-      }
-  }   
       public int buscarIdPorNome(String nomeCliente) {
-    int idCliente = -1; // Valor padrão em caso de não encontrar o cliente
+    int idCliente = -1; 
     String sql = "SELECT codCliente FROM clientes WHERE nome = ?";
     
     try (
@@ -111,6 +82,7 @@ public class ClienteDAO {
     }
     
     return idCliente;
+          
 }
  }
 

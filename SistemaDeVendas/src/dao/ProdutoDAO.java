@@ -61,36 +61,8 @@ public class ProdutoDAO {
             return null;
         }
     }
-
-    public void editar(Produto produto) {
-        try {
-            String sql = "UPDATE produto SET nome=?, descricao=?, pVenda=?, qtdEstoque=? WHERE id=?";
-
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, produto.getNome());
-            stmt.setString(2, produto.getDescricao());
-            stmt.setString(3, produto.getPVenda());
-            stmt.setString(4, produto.getQtdEstoque());
-            stmt.setInt(5, produto.getId());
-            stmt.execute();
-        } catch (SQLException ex) {
-            System.out.println("Erro ao atualizar produto: " + ex.getMessage());
-        }
-    }
-
-    public void excluir(int id) {
-        try {
-            String sql = "DELETE FROM produto WHERE id=?";
-
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, id);
-            stmt.execute();
-        } catch (SQLException ex) {
-            System.out.println("Erro ao excluir produto: " + ex.getMessage());
-        }
-    }
     public int buscarIdPorNome(String nomeProduto) {
-        int idProduto = -1; // Valor padrão se o produto não for encontrado
+        int idProduto = -1; 
         String sql = "SELECT codProduto FROM produtos WHERE nome = ?";
         
         try (PreparedStatement stmt = this.conn.prepareStatement(sql)) {

@@ -19,24 +19,6 @@ public class NotaDAO {
         this.conn = this.conexao.getConexao();
     }
 
-    public boolean salvarNota(NotasFiscais nota) {
-        String sql = "INSERT INTO NotasFiscais (codCliente, codProduto, dataVenda, subtotal) VALUES (?, ?, ?, ?)";
-        try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, nota.getCliente()); // codCliente
-            stmt.setInt(2, nota.getIdProduto());
-            stmt.setTimestamp(3, nota.getData()); // dataVenda
-            stmt.setDouble(4, nota.getSubtotal()); // subtotal
-            
-            stmt.executeUpdate();
-            stmt.close();
-            return true;
-        } catch (SQLException ex) {
-            System.out.println("Erro ao salvar nota: " + ex.getMessage());
-            return false;
-        }
-    }
-
     public NotasFiscais getNota(int codNota) {
         String sql = "SELECT * FROM NotasFiscais WHERE codNota = ?";
         NotasFiscais nota = null;
@@ -66,17 +48,15 @@ public class NotaDAO {
     String sql = "SELECT nome FROM clientes ORDER BY nome";
     
     try (
-        // Cria a declaração para executar a consulta
-        PreparedStatement stmt = this.conn.prepareStatement(sql);
-        // Executa a consulta e obtém o resultado
+        PreparedStatement stmt = this.conn.prepareStatement(sql);     
         ResultSet rs = stmt.executeQuery()
     ) {
-        // Itera sobre o resultado e adiciona os nomes na lista
+       
         while (rs.next()) {
             nomesClientes.add(rs.getString("nome"));
         }
     } catch (SQLException ex) {
-        // Trata a exceção em caso de erro no SQL
+      
         System.err.println("Erro ao listar clientes: " + ex.getMessage());
     }
      System.out.println("Número de clientes encontrados: " + nomesClientes.size());
@@ -88,17 +68,15 @@ public class NotaDAO {
     String sql = "SELECT nome FROM produtos ORDER BY nome";
     
     try (
-        // Cria a declaração para executar a consulta
+       
         PreparedStatement stmt = this.conn.prepareStatement(sql);
-        // Executa a consulta e obtém o resultado
+      
         ResultSet rs = stmt.executeQuery()
     ) {
-        // Itera sobre o resultado e adiciona os nomes na lista
         while (rs.next()) {
             nomesProdutos.add(rs.getString("nome"));
         }
     } catch (SQLException ex) {
-        // Trata a exceção em caso de erro no SQL
         System.err.println("Erro ao listar clientes: " + ex.getMessage());
     }
     return nomesProdutos;
